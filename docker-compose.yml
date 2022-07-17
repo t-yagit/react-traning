@@ -1,9 +1,36 @@
 version: "3"
 services:
-    nginx:
-      image: nginx:latest
-      ports:
-       - "80:80"
-      volumes:
-       - ".:/usr/share/nginx/html"
-       
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ".:/usr/share/nginx/html"
+  react:
+    build: "./app"
+    command: bash -c "npm start"
+    ports:
+      - "3000:3000"
+    volumes:
+      - "./app:/app"
+    depends_on:
+      - setup
+  storybook:
+    build: "./app"
+    command: bash -c "npm run storybook"
+    ports:
+      - "6006:6006"
+    volumes:
+      - "./app:/app"
+    depends_on:
+      - setup
+  setup:
+    build: "./app"
+    volumes:
+      - "./app:/app"
+  vscode:
+    build: "./vscode"
+    ports:
+      - "8000:8000"
+    privileged: true
+    command: bash -c "tail -f /dev/null"

@@ -1,23 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
+import Article from "./components/Article"
+import {useEffect, useState} from "react";
 
 function App() {
+  const [ids, setId] = useState([])
+
+  useEffect(() => {
+    fetch(`http://localhost:3001/`, {mode: 'cors'})
+    .then(res => res.json())
+    .then(data => {setId(data)})
+    }, [])
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {Object.keys(ids).map(key => 
+        <Article
+         name={ids[key].name}
+         id={ids[key].id}
+        />
+      )}
     </div>
   );
 }

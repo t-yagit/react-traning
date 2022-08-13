@@ -8,32 +8,24 @@ services:
       - ".:/usr/share/nginx/html"
   react:
     build: "./app"
-    command: bash -c "npm start"
     ports:
       - "3000:3000"
     volumes:
-      - "./app:/app"
-    depends_on:
-      - setup
+      - "./app/public:/app/public"
+      - "./app/src:/app/src"
   storybook:
     build: "./app"
     command: bash -c "npm run storybook"
     ports:
       - "6006:6006"
     volumes:
-      - "./app:/app"
-    depends_on:
-      - setup
+      - "./app/public:/app/public"
+      - "./app/src:/app/src"
+      - "./app/.storybook:/app/.storybook"
   api:
     build: "./api"
     ports:
       - "3001:3001"
-    depends_on:
-      - setup
-  setup:
-    build: "./app"
-    volumes:
-      - "./app:/app"
   vscode:
     build: "./vscode"
     ports:

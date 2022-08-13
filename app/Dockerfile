@@ -3,5 +3,9 @@ WORKDIR /app
 COPY package.json .
 COPY package-lock.json .
 
-USER node
-CMD ["npm install"]
+RUN npm install && \
+    mkdir node_modules/.cache && \
+    chmod -R 777 node_modules/.cache
+# USER node
+
+CMD ["npm", "start"]
